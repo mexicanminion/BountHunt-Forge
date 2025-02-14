@@ -19,29 +19,33 @@ public class Config
 {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
-    private static final ForgeConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
-            .comment("Whether to log the dirt block on common setup")
-            .define("logDirtBlock", true);
+    private static final ForgeConfigSpec.ConfigValue<String> ITEM_INGOT = BUILDER
+            .comment("The item for the ingot type")
+            .define("itemIngot", "minecraft:diamond", Config::validateItemName);
 
-    private static final ForgeConfigSpec.IntValue MAGIC_NUMBER = BUILDER
-            .comment("A magic number")
-            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue INGOT_TO_BLOCK_AMOUNT = BUILDER
+            .comment("The amount of ingots it takes to make a block")
+            .defineInRange("ingotToBlockAmount", 9, 0, 576);
 
-    public static final ForgeConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
-            .comment("What you want the introduction message to be for the magic number")
-            .define("magicNumberIntroduction", "The magic number is... ");
+    private static final ForgeConfigSpec.IntValue ANNOUNCE_AMOUNT = BUILDER
+            .comment("The amount of ingots it takes to announce a bounty to the whole server")
+            .defineInRange("announceAmount", 9, 0, 576);
 
-    // a list of strings that are treated as resource locations for items
-    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER
-            .comment("A list of items to log on common setup.")
-            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), Config::validateItemName);
+    private static final ForgeConfigSpec.BooleanValue ONLY_INGOT = BUILDER
+            .comment("If the currency is only ingots")
+            .define("onlyIngot", false);
+
+    private static final ForgeConfigSpec.ConfigValue<String> ITEM_BLOCK = BUILDER
+            .comment("The item for the ingot type")
+            .define("itemBlock", "minecraft:diamond_block", Config::validateItemName);
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
-    public static boolean logDirtBlock;
-    public static int magicNumber;
-    public static String magicNumberIntroduction;
-    public static Set<Item> items;
+    public static Item itemIngot;
+    public static int ingotToBlockAmount;
+    public static int announceAmount;
+    public static boolean onlyIngot;
+    public static Item itemBlock;
 
     private static boolean validateItemName(final Object obj)
     {
@@ -51,13 +55,10 @@ public class Config
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event)
     {
-        logDirtBlock = LOG_DIRT_BLOCK.get();
-        magicNumber = MAGIC_NUMBER.get();
-        magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
-
-        // convert the list of strings into a set of items
-        items = ITEM_STRINGS.get().stream()
-                .map(itemName -> ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(itemName)))
-                .collect(Collectors.toSet());
+        itemIngot = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(ITEM_INGOT.get()));
+        ingotToBlockAmount = INGOT_TO_BLOCK_AMOUNT.get();
+        announceAmount = ANNOUNCE_AMOUNT.get();
+        onlyIngot = ONLY_INGOT.get();
+        itemBlock = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(ITEM_BLOCK.get()));
     }
 }

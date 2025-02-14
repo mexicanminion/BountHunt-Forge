@@ -1,4 +1,4 @@
-# **Bounty Hunt - Fabric**
+# **Bounty Hunt - Forge (IN PROGRESS)**
 
 ### **About Bounty Hunt**
 A server side mod that allows you to add a bounty system to your server using in game items. No need for a currency mod, keep it vanilla! Players can set a bounty using commands and accessing a GUI to set a bounty. Once a player who has a bounty gets eliminated, the player who eliminated them can claim their bounty!
