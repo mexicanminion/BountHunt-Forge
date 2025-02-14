@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class Config
 {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+    static private int fileVer = 1;
 
     private static final ForgeConfigSpec.ConfigValue<String> ITEM_INGOT = BUILDER
             .comment("The item for the ingot type")
@@ -39,6 +40,10 @@ public class Config
             .comment("The item for the ingot type")
             .define("itemBlock", "minecraft:diamond_block", Config::validateItemName);
 
+    private static final ForgeConfigSpec.IntValue BH_CONFIG_VERSION = BUILDER
+            .comment("The amount of ingots it takes to make a block")
+            .defineInRange("BHVersion", fileVer, 0, Integer.MAX_VALUE);
+
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
     public static Item itemIngot;
@@ -46,6 +51,7 @@ public class Config
     public static int announceAmount;
     public static boolean onlyIngot;
     public static Item itemBlock;
+    public static int BHVersion;
 
     private static boolean validateItemName(final Object obj)
     {
@@ -60,5 +66,6 @@ public class Config
         announceAmount = ANNOUNCE_AMOUNT.get();
         onlyIngot = ONLY_INGOT.get();
         itemBlock = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(ITEM_BLOCK.get()));
+        BHVersion = BH_CONFIG_VERSION.get();
     }
 }
