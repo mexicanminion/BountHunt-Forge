@@ -1,7 +1,7 @@
 package net.mexicanminion.bountyhunt;
 
 import com.mojang.logging.LogUtils;
-import net.mexicanminion.bountyhunt.commands.BountyHuntCommand;
+import net.mexicanminion.bountyhunt.util.RegisterCommands;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -14,8 +14,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.server.command.ConfigCommand;
-import net.minecraftforge.server.command.ForgeCommand;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -54,7 +52,7 @@ public class BountyHuntMod {
 
     @SubscribeEvent
     public void onCommandsRegister(RegisterCommandsEvent event) {
-        new BountyHuntCommand(event.getDispatcher());
+        new RegisterCommands(event.getDispatcher());
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

@@ -1,15 +1,18 @@
-package net.mexicanminion.bountyhunt.commands;
+package net.mexicanminion.bountyhunt.util;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.mexicanminion.bountyhunt.BountyHuntMod;
+import net.mexicanminion.bountyhunt.commands.HelpBounty;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = BountyHuntMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class BountyHuntCommand {
+public class RegisterCommands {
 
-    public BountyHuntCommand(CommandDispatcher<CommandSourceStack> dispatcher)
-    {
+    public RegisterCommands(CommandDispatcher<CommandSourceStack> dispatcher) {
+
+        HelpBounty.register(dispatcher);
+
         /*dispatcher.register(
                 LiteralArgumentBuilder.<CommandSourceStack>literal("bountyhunt")
                         .then(TPSCommand.register())
