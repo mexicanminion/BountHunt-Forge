@@ -3,6 +3,7 @@ package net.mexicanminion.bountyhunt.util;
 import com.mojang.brigadier.CommandDispatcher;
 import net.mexicanminion.bountyhunt.BountyHuntMod;
 import net.mexicanminion.bountyhunt.commands.HelpBounty;
+import net.mexicanminion.bountyhunt.commands.SetBountyCommand;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraftforge.fml.common.Mod;
 
@@ -12,6 +13,7 @@ public class RegisterCommands {
     public RegisterCommands(CommandDispatcher<CommandSourceStack> dispatcher) {
 
         HelpBounty.register(dispatcher);
+        SetBountyCommand.register(dispatcher);
 
         /*dispatcher.register(
                 LiteralArgumentBuilder.<CommandSourceStack>literal("bountyhunt")
