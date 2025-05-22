@@ -1,6 +1,7 @@
 package net.mexicanminion.bountyhunt.gui;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -9,11 +10,19 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class SetBountyMenu extends AbstractContainerMenu {
 
+    public final ItemStackHandler menuInventory = new ItemStackHandler(54){
+      @Override
+      protected int getStackLimit(int slot, @NotNull ItemStack stack){
+          return 64;
+      }
+    };
 
     protected SetBountyMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
         this(pContainerId, inv);
@@ -22,14 +31,15 @@ public class SetBountyMenu extends AbstractContainerMenu {
     public SetBountyMenu(int containerId, Inventory inv){
         super(MenuTypes.SETBOUNTY_MENU.get(), containerId);
 
-        addPlayerHotbar(inv);
-        addPlayerInventory(inv);
-
         for (int i = 0; i < 6; ++i) {
-            for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(inv, l + i * 9 + 9, 8 + l * 18, 17 + i * 18));
+            for (int j = 0; j < 9; ++j) {
+                this.addSlot(new SlotItemHandler(menuInventory, j + i * 9, 8 + j * 18, 17 + i * 18));
+                //this.addSlot(new SlotItemHandler(menuInventory, 0, 80, 35));
             }
         }
+
+        addPlayerHotbar(inv);
+        addPlayerInventory(inv);
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
