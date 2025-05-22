@@ -1,8 +1,12 @@
 package net.mexicanminion.bountyhunt;
 
 import com.mojang.logging.LogUtils;
+import net.mexicanminion.bountyhunt.gui.CommonScreen;
+import net.mexicanminion.bountyhunt.gui.MenuTypes;
+import net.mexicanminion.bountyhunt.gui.SetBountyMenu;
 import net.mexicanminion.bountyhunt.util.RegisterCommands;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -31,6 +35,8 @@ public class BountyHuntMod {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
+        MenuTypes.register(modEventBus);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -65,6 +71,10 @@ public class BountyHuntMod {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+
+            event.enqueueWork(
+                    () -> MenuScreens.register(MenuTypes.SETBOUNTY_MENU.get(), CommonScreen::new)
+            );
         }
     }
 }

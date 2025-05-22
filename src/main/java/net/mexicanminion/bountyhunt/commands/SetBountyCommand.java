@@ -1,6 +1,7 @@
 package net.mexicanminion.bountyhunt.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
+import net.mexicanminion.bountyhunt.gui.SetBountyMenu;
 import net.mexicanminion.bountyhunt.managers.BountyDataManager;
 import net.mexicanminion.bountyhunt.util.BountyData;
 import net.minecraft.commands.CommandSourceStack;
@@ -8,6 +9,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.SimpleMenuProvider;
 
 public class SetBountyCommand {
 
@@ -60,12 +62,11 @@ public class SetBountyCommand {
 
         // Opens the SetBountyGUI
         sender.sendSystemMessage(Component.literal("Opening UI"), false);
-        /*try {
-            SetBountyGUI bountyGUI = new SetBountyGUI(sender, false, contextServer, target, false);
-            bountyGUI.open();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+
+        sender.openMenu(new SimpleMenuProvider(
+                (containerId, playerInventory, player) -> new SetBountyMenu(containerId, playerInventory),
+                Component.literal("Set Bounty")
+        ));
 
         return 1;
     }
