@@ -1,10 +1,17 @@
 package net.mexicanminion.bountyhunt.gui;
 
+import net.mexicanminion.bountyhunt.Config;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.ContainerListener;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -42,14 +49,48 @@ public class SetBountyMenu extends AbstractContainerMenu {
         for (int i = 0; i < 6; ++i) {
             for (int j = 0; j < 9; ++j) {
                 this.addSlot(new SlotItemHandler(menuInventory, j + i * 9, 8 + j * 18, 18 + i * 18));
-                //this.addSlot(new SlotItemHandler(menuInventory, 0, 80, 35));
             }
         }
 
+        ItemStack stack = new ItemStack(Items.GRAY_STAINED_GLASS_PANE);
+        stack.set(DataComponents.CUSTOM_NAME, Component.empty());
+
         for(int i = 0; i < 54; i++){
-            menuInventory.insertItem(i, new ItemStack(Items.GRAY_STAINED_GLASS_PANE), false);
+            menuInventory.insertItem(i, stack, false);
         }
     }
+
+    //SetBounty Functions
+
+    public void updateSelectAmountButton(Item mainItem, String ingotName, String blockName){
+        ItemStack stack = new ItemStack(mainItem);
+        stack.set(DataComponents.CUSTOM_NAME, Component.literal("Select Amount")
+                .setStyle(Style.EMPTY.withItalic(true).withBold(true).withColor(ChatFormatting.WHITE)));
+        /*if(Config.onlyIngot){
+            menuInventory.insertItem(13, stack, false);
+            this.setSlot(13, new GuiElementBuilder(mainItem)
+                    .setName(Text.literal("Select Amount").setStyle(Style.EMPTY.withItalic(true).withBold(true).withColor(Formatting.WHITE)))
+                    .setCallback(((index, clickType, action) -> {purchaseType(false);})));
+        }
+        else {
+            this.setSlot(13, new GuiElementBuilder(mainItem)
+                    .setName(Text.literal("Select Amount").setStyle(Style.EMPTY.withItalic(true).withBold(true).withColor(Formatting.WHITE)))
+                    .addLoreLine(Text.literal("Click to switch between ").setStyle(Style.EMPTY.withItalic(true).withBold(false).withColor(Formatting.WHITE)))
+                    .addLoreLine(Text.literal(ingotName + " and " + blockName).setStyle(Style.EMPTY.withItalic(true).withBold(false).withColor(Formatting.WHITE)))
+                    .setCallback(((index, clickType, action) -> {purchaseType(true);})));
+
+        }
+
+         */
+
+    }
+
+    @Override
+    public void clicked(int pSlotId, int pButton, ClickType pClickType, Player pPlayer) {
+
+    }
+
+    //FORGE Functions
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.
@@ -119,5 +160,4 @@ public class SetBountyMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 198));
         }
     }
-
 }
