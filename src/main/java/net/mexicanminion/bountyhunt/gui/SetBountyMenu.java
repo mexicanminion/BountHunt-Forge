@@ -31,15 +31,15 @@ public class SetBountyMenu extends AbstractContainerMenu {
     public SetBountyMenu(int containerId, Inventory inv){
         super(MenuTypes.SETBOUNTY_MENU.get(), containerId);
 
+        addPlayerInventory(inv);
+        addPlayerHotbar(inv);
+
         for (int i = 0; i < 6; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlot(new SlotItemHandler(menuInventory, j + i * 9, 8 + j * 18, 17 + i * 18));
+                this.addSlot(new SlotItemHandler(menuInventory, j + i * 9, 8 + j * 18, 18 + i * 18));
                 //this.addSlot(new SlotItemHandler(menuInventory, 0, 80, 35));
             }
         }
-
-        addPlayerHotbar(inv);
-        addPlayerInventory(inv);
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
@@ -58,7 +58,7 @@ public class SetBountyMenu extends AbstractContainerMenu {
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 1;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = 54;  // must be the number of slots you have!
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
         Slot sourceSlot = slots.get(pIndex);

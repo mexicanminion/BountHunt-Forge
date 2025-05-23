@@ -5,6 +5,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
@@ -15,7 +16,7 @@ public class MenuTypes {
             DeferredRegister.create(Registries.MENU, BountyHuntMod.MODID);
 
     public static final RegistryObject<MenuType<SetBountyMenu>> SETBOUNTY_MENU =
-            registerMenuType("setbounty_menu", SetBountyMenu::new);
+            MENUS.register("setbounty_menu", () -> IForgeMenuType.create(SetBountyMenu::new));
 
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(String name,
                                                                                                   IContainerFactory<T> factory) {
