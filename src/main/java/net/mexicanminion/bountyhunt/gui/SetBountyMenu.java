@@ -1,21 +1,26 @@
 package net.mexicanminion.bountyhunt.gui;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class SetBountyMenu extends AbstractContainerMenu {
+
+    public int amount = 0;
+    public boolean isPlayerDone = false;
+    public boolean enteringBlocks = false;
+    public boolean isEditing;
+    //public ServerCommandSource contextServer;
+    public ServerPlayer target;
 
     public final ItemStackHandler menuInventory = new ItemStackHandler(54){
       @Override
@@ -39,6 +44,10 @@ public class SetBountyMenu extends AbstractContainerMenu {
                 this.addSlot(new SlotItemHandler(menuInventory, j + i * 9, 8 + j * 18, 18 + i * 18));
                 //this.addSlot(new SlotItemHandler(menuInventory, 0, 80, 35));
             }
+        }
+
+        for(int i = 0; i < 54; i++){
+            menuInventory.insertItem(i, new ItemStack(Items.GRAY_STAINED_GLASS_PANE), false);
         }
     }
 
